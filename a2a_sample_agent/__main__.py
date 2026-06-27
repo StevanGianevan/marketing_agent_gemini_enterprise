@@ -6,6 +6,7 @@ from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.server.routes import (
     create_agent_card_routes,
     create_jsonrpc_routes,
+    create_rest_routes,
 )
 from a2a.server.tasks import InMemoryTaskStore
 from a2a.types import (
@@ -27,30 +28,32 @@ if __name__ == '__main__':
     # --8<-- [start:AgentSkill]
     # Defines the abilities or functions that agent can perform.
     skill = AgentSkill(
-        id='echo_bot',
-        name='Echo Bot',
-        description='An example agent that acknowledges client request and responds with a "Hello World" message.',
+        id='marketing_coordinator',
+        name='Marketing Coordinator',
+        description=(
+            'Helps establish a powerful online presence: domain naming, '
+            'website creation, marketing campaigns, logo design, and video strategy.'
+        ),
         input_modes=['text/plain'],
         output_modes=['text/plain'],
-        tags=['a2a', 'echo-example'],
-        examples=['hi', 'how are you'],
+        tags=['marketing', 'adk', 'gemini'],
+        examples=['Help me create a brand for my coffee shop', 'I need a domain name for my startup'],
     )
     # --8<-- [end:AgentSkill]
-    # Defines an optional additional skill for the agent that is not visible in the public card.
     extended_skill = AgentSkill(
-        id='echo_bot_super_mode',
-        name='Echo Bot (Super Mode)',
-        description='An extended version of Echo Bot that responds with extra enthusiasm!',
-        tags=['a2a', 'echo-example', 'extended'],
-        examples=['super hi', 'give me a super hello'],
+        id='marketing_coordinator_extended',
+        name='Marketing Coordinator (Extended)',
+        description='Full marketing coordinator with all sub-agents enabled.',
+        tags=['marketing', 'adk', 'gemini', 'extended'],
+        examples=['Run full marketing setup for my brand'],
     )
 
     # --8<-- [start:AgentCard]
     # Define a public-facing agent card that allows clients to discover your agent's capabilities.
     public_agent_card = AgentCard(
         # Basic identity information of A2A server
-        name='Hello World Agent',  # Identity
-        description='Just a hello world agent',
+        name='Marketing Coordinator Agent',
+        description='AI marketing agent that guides brand creation, domain naming, website, campaigns, and logo design.',
         version='0.0.1',
         # Default Media Types for the agent's interactions
         default_input_modes=['text/plain'],  # Supported media types
@@ -60,7 +63,8 @@ if __name__ == '__main__':
         # Ordered list of endpoints and protocols where the service can be reached
         supported_interfaces=[
             AgentInterface(
-                protocol_binding='JSONRPC',
+                protocol_binding='HTTP_JSON',
+                protocol_version='1.0',
                 url=PUBLIC_URL,
             )
         ],
@@ -74,15 +78,16 @@ if __name__ == '__main__':
     # Defines the authenticated extended agent card with
     # extended skills that are visible only to authenticated users
     extended_agent_card = AgentCard(
-        name='Hello World Agent - Extended Edition',
-        description='The full-featured hello world agent for authenticated users.',
+        name='Marketing Coordinator Agent - Extended',
+        description='Full-featured marketing coordinator with all sub-agents for authenticated users.',
         version='0.0.2',
         default_input_modes=['text/plain'],
         default_output_modes=['text/plain'],
         capabilities=AgentCapabilities(streaming=True, extended_agent_card=True),
         supported_interfaces=[
             AgentInterface(
-                protocol_binding='JSONRPC',
+                protocol_binding='HTTP_JSON',
+                protocol_version='1.0',
                 url=PUBLIC_URL,
             )
         ],
@@ -113,9 +118,9 @@ if __name__ == '__main__':
     # Create routes for the agent card
     routes.extend(create_agent_card_routes(public_agent_card))
 
-    # Create routes for the JSONRPC protocol
-    # Alternatively, you can choose GRPC or HTTP_JSON as protocol bindings
-    # based on your requirements
+    # v0.3 compat REST routes — REST03Adapter hardcodes /v1/ prefix internally
+    routes.extend(create_rest_routes(request_handler, enable_v0_3_compat=True))
+    # JSONRPC at / for other A2A clients
     routes.extend(create_jsonrpc_routes(request_handler, '/'))
     # --8<-- [end:ServerRoutes]
     # --8<-- [start:AppServer]
