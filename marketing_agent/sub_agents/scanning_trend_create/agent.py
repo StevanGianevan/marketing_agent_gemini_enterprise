@@ -35,7 +35,7 @@ from ...tools.youtube_tools import (
 
 from . import prompt
 
-MODEL = "gemini-2.5-pro"
+MODEL = "gemini-2.5-flash"
 
 trend_create_agent = Agent(
     model=MODEL,
