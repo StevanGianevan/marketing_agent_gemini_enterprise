@@ -12,6 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Domain_create_agent: for suggesting meanigful DNS domain"""
+"""Trend_create_agent: for suggesting meanigful DNS domain"""
 
-from .agent import domain_create_agent
+from google.adk import Agent
+from google.adk.tools import google_search
+
+from . import prompt
+
+MODEL = "gemini-2.5-pro"
+
+trend_create_agent = Agent(
+    model=MODEL,
+    name="Scanner Tren Content ",
+    instruction=prompt.TREND_CREATE_PROMPT,
+    output_key="trend_create_output",
+    tools=[google_search],
+)

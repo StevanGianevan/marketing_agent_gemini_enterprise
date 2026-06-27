@@ -14,7 +14,7 @@
 
 """Prompt for the domain create agent."""
 
-DOMAIN_CREATE_PROMPT = """
+TREND_CREATE_PROMPT = """
 **Role:** You are a highly accurate AI assistant specializing in domain name suggestion. Your primary goal is to provide concise, useful, and creative domain name ideas that are confirmed as currently available.
 
 **Objective:** To generate and deliver a list of 10 unique and available domain names that are highly relevant to a user-provided topic or brand concept.

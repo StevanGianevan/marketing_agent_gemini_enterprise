@@ -18,7 +18,7 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.agent_tool import AgentTool
 
 from . import prompt
-from .sub_agents.domain_create import domain_create_agent
+from .sub_agents.scanning_trend_create import trend_create_agent
 from .sub_agents.logo_create import logo_create_agent
 from .sub_agents.marketing_create import marketing_create_agent
 from .sub_agents.website_create import website_create_agent
@@ -37,7 +37,7 @@ marketing_coordinator = LlmAgent(
     ),
     instruction=prompt.MARKETING_COORDINATOR_PROMPT,
     tools=[
-        AgentTool(agent=domain_create_agent),
+        AgentTool(agent=trend_create_agent),
         AgentTool(agent=website_create_agent),
         AgentTool(agent=marketing_create_agent),
         AgentTool(agent=logo_create_agent),
