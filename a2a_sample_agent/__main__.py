@@ -1,3 +1,5 @@
+import os
+
 import uvicorn
 
 from a2a.server.request_handlers import DefaultRequestHandler
@@ -17,6 +19,9 @@ from agent_executor import (
 )
 from starlette.applications import Starlette
 
+HOST = os.environ.get('A2A_HOST', '127.0.0.1')
+PORT = int(os.environ.get('A2A_PORT', '9999'))
+PUBLIC_URL = os.environ.get('A2A_PUBLIC_URL', f'http://{HOST}:{PORT}')
 
 if __name__ == '__main__':
     # --8<-- [start:AgentSkill]
@@ -56,7 +61,7 @@ if __name__ == '__main__':
         supported_interfaces=[
             AgentInterface(
                 protocol_binding='JSONRPC',
-                url='http://127.0.0.1:9999',
+                url=PUBLIC_URL,
             )
         ],
         # The list of AgentSkill objects that this agent offers
@@ -78,7 +83,7 @@ if __name__ == '__main__':
         supported_interfaces=[
             AgentInterface(
                 protocol_binding='JSONRPC',
-                url='http://127.0.0.1:9999',
+                url=PUBLIC_URL,
             )
         ],
         skills=[
@@ -122,5 +127,5 @@ if __name__ == '__main__':
 
     # Run the app
     # Uvicorn is a production-ready ASGI HTTP server
-    uvicorn.run(app, host='127.0.0.1', port=9999)
+    uvicorn.run(app, host=HOST, port=PORT)
     # --8<-- [end:AppServer]
