@@ -15,7 +15,23 @@
 """Trend_create_agent: for suggesting meanigful DNS domain"""
 
 from google.adk import Agent
-from google.adk.tools import google_search
+# from google.adk.tools import google_search
+# from ...tools.bigquery_tools import (
+#     get_campaign_performance,
+#     analyze_audience_demographics,
+#     get_conversion_funnel,
+#     insert_campaign_data,
+# )
+from ...tools.youtube_tools import (
+    get_channel_stats,
+    # search_videos,
+    # get_video_stats,
+    # get_channel_videos,
+    # get_trending_videos,
+    # analyze_video_performance,
+    # save_video_performance_to_bigquery,
+    # sync_channel_videos_to_bigquery,
+)
 
 from . import prompt
 
@@ -23,8 +39,24 @@ MODEL = "gemini-2.5-pro"
 
 trend_create_agent = Agent(
     model=MODEL,
-    name="Scanner Tren Content ",
+    name="scanner_tren_content",
     instruction=prompt.TREND_CREATE_PROMPT,
     output_key="trend_create_output",
-    tools=[google_search],
+    tools=[
+        # google_search,
+        # BigQuery analytics tools
+        # get_campaign_performance,
+        # analyze_audience_demographics,
+        # get_conversion_funnel,
+        # insert_campaign_data,
+        # YouTube tools for trend analysis
+        get_channel_stats,
+        # search_videos,
+        # get_video_stats,
+        # get_channel_videos,
+        # get_trending_videos,
+        # analyze_video_performance,
+        # save_video_performance_to_bigquery,
+        # sync_channel_videos_to_bigquery,
+    ],
 )
