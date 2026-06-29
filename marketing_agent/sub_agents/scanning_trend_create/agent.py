@@ -24,11 +24,11 @@ from google.adk import Agent
 # )
 from ...tools.youtube_tools import (
     get_channel_stats,
-    # search_videos,
-    # get_video_stats,
-    # get_channel_videos,
-    # get_trending_videos,
-    # analyze_video_performance,
+    search_videos,
+    get_video_stats,
+    get_channel_videos,
+    get_trending_videos,
+    analyze_video_performance,
     # save_video_performance_to_bigquery,
     # sync_channel_videos_to_bigquery,
 )
@@ -51,11 +51,11 @@ trend_create_agent = Agent(
         # insert_campaign_data,
         # YouTube tools for trend analysis
         get_channel_stats,
-        # search_videos,
-        # get_video_stats,
-        # get_channel_videos,
-        # get_trending_videos,
-        # analyze_video_performance,
+        search_videos,
+        get_video_stats,
+        get_channel_videos,
+        get_trending_videos,
+        analyze_video_performance,
         # save_video_performance_to_bigquery,
         # sync_channel_videos_to_bigquery,
     ],
